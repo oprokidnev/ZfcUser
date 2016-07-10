@@ -33,6 +33,7 @@ class UserControllerFactory implements FactoryInterface
 
         /* @var UserController $controller */
         $controller = new UserController($redirectCallback);
+        $controller->setPluginManager($container->get(\Zend\Mvc\Controller\PluginManager::class));
 
         $controller->setChangeEmailForm($container->get('zfcuser_change_email_form'));
         $controller->setOptions($container->get('zfcuser_module_options'));

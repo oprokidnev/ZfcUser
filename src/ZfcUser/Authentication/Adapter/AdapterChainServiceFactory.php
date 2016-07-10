@@ -68,14 +68,14 @@ class AdapterChainServiceFactory implements FactoryInterface
     public function getOptions(ContainerInterface $container = null)
     {
         if (!$this->options) {
-            if (!$serviceLocator) {
+            if (!$container) {
                 throw new OptionsNotFoundException(
                     'Options were tried to retrieve but not set ' .
                     'and no service locator was provided'
                 );
             }
 
-            $this->setOptions($serviceLocator->get('zfcuser_module_options'));
+            $this->setOptions($container->get('zfcuser_module_options'));
         }
 
         return $this->options;

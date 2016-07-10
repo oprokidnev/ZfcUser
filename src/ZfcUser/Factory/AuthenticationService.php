@@ -3,7 +3,6 @@
 namespace ZfcUser\Factory;
 
 use Interop\Container\ContainerInterface;
-use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 class AuthenticationService implements FactoryInterface
@@ -19,7 +18,7 @@ class AuthenticationService implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new AuthenticationService(
+        return new \Zend\Authentication\AuthenticationService(
             $container->get('ZfcUser\Authentication\Storage\Db'),
             $container->get('ZfcUser\Authentication\Adapter\AdapterChain')
         );

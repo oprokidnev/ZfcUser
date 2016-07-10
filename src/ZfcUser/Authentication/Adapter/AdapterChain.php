@@ -84,13 +84,13 @@ class AdapterChain extends EventProvider implements AdapterInterface
      */
     public function resetAdapters()
     {
-        $listeners = $this->getEventManager()->getListeners('authenticate');
-        foreach ($listeners as $listener) {
-            $listener = $listener->getCallback();
-            if (is_array($listener) && $listener[0] instanceof ChainableAdapter) {
-                $listener[0]->getStorage()->clear();
-            }
-        }
+        $listeners = $this->getEventManager()->clearListeners('authenticate');
+//        foreach ($listeners as $listener) {
+//            $listener = $listener->getCallback();
+//            if (is_array($listener) && $listener[0] instanceof ChainableAdapter) {
+//                $listener[0]->getStorage()->clear();
+//            }
+//        }
         return $this;
     }
 
