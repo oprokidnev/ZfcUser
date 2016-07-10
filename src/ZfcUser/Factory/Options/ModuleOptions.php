@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Clayton Daley
- * Date: 5/6/2015
- * Time: 6:39 PM
- */
 
 namespace ZfcUser\Factory\Options;
 
-
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use ZfcUser\Options;
 
 class ModuleOptions implements FactoryInterface
@@ -19,12 +12,14 @@ class ModuleOptions implements FactoryInterface
     /**
      * Create service
      *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @param  ContainerInterface $container
+     * @param  string             $requestedName
+     * @param  null|array         $options
+     * @return Options\ModuleOptions
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
         return new Options\ModuleOptions(isset($config['zfcuser']) ? $config['zfcuser'] : array());
     }
 }

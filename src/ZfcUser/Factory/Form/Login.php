@@ -1,32 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Clayton Daley
- * Date: 3/10/2015
- * Time: 9:34 AM
- */
 
 namespace ZfcUser\Factory\Form;
 
+use Interop\Container\ContainerInterface;
 use Zend\Form\FormElementManager;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use ZfcUser\Form;
 
 class Login implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $formElementManager)
+    /**
+     * Create service
+     *
+     * @param  ContainerInterface $container
+     * @param  string             $requestedName
+     * @param  null|array         $options
+     * @return Form\LoginFilter
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        if ($formElementManager instanceof FormElementManager) {
-            $sm = $formElementManager->getServiceLocator();
-            $fem = $formElementManager;
-        } else {
-            $sm = $formElementManager;
-            $fem = $sm->get('FormElementManager');
-        }
+        $fem = $container->get('FormElementManager');
 
         /** @var FormElementManager $formElementManager */
-        $options = $sm->get('zfcuser_module_options');
+        $options = $container->get('zfcuser_module_options');
         $form = new Form\Login(null, $options);
         // Inject the FormElementManager to support custom FormElements
         $form->getFormFactory()->setFormElementManager($fem);

@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Clayton Daley
- * Date: 5/6/2015
- * Time: 6:40 PM
- */
 
 namespace ZfcUser\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
+use Zend\Authentication\AuthenticationService;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
 class AuthenticationService implements FactoryInterface
 {
@@ -17,14 +12,16 @@ class AuthenticationService implements FactoryInterface
     /**
      * Create service
      *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @param  ContainerInterface $container
+     * @param  string             $requestedName
+     * @param  null|array         $options
+     * @return AuthenticationService
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new \Zend\Authentication\AuthenticationService(
-            $serviceLocator->get('ZfcUser\Authentication\Storage\Db'),
-            $serviceLocator->get('ZfcUser\Authentication\Adapter\AdapterChain')
+        return new AuthenticationService(
+            $container->get('ZfcUser\Authentication\Storage\Db'),
+            $container->get('ZfcUser\Authentication\Adapter\AdapterChain')
         );
     }
 }

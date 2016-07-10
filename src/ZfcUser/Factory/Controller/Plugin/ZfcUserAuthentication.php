@@ -1,16 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Clayton Daley
- * Date: 5/6/2015
- * Time: 6:48 PM
- */
 
 namespace ZfcUser\Factory\Controller\Plugin;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use ZfcUser\Controller;
+use ZfcUser\Controller\Plugin\ZfcUserAuthentication;
 
 class ZfcUserAuthentication implements FactoryInterface
 {
@@ -18,14 +13,15 @@ class ZfcUserAuthentication implements FactoryInterface
     /**
      * Create service
      *
-     * @param ServiceLocatorInterface $serviceManager
-     * @return mixed
+     * @param  ContainerInterface $container
+     * @param  string             $requestedName
+     * @param  null|array         $options
+     * @return ZfcUserAuthentication
      */
-    public function createService(ServiceLocatorInterface $serviceManager)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $serviceLocator = $serviceManager->getServiceLocator();
-        $authService = $serviceLocator->get('zfcuser_auth_service');
-        $authAdapter = $serviceLocator->get('ZfcUser\Authentication\Adapter\AdapterChain');
+        $authService = $container->get('zfcuser_auth_service');
+        $authAdapter = $container->get('ZfcUser\Authentication\Adapter\AdapterChain');
         $controllerPlugin = new Controller\Plugin\ZfcUserAuthentication;
         $controllerPlugin->setAuthService($authService);
         $controllerPlugin->setAuthAdapter($authAdapter);
